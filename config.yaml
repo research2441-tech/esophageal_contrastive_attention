@@ -1,0 +1,52 @@
+seed: 42
+device: auto
+
+data:
+  root: "/path/to/esophageal_dataset"
+  manifest_csv: null
+  image_size: 224
+  num_workers: 4
+  train_ratio: 0.70
+  val_ratio: 0.10
+  test_ratio: 0.20
+  class_names: [esophagus, no-esophagus]
+  patient_id_column: patient_id
+
+augmentation:
+  enabled: true
+  horizontal_flip_p: 0.5
+  vertical_flip_p: 0.0
+  rotation_degrees: 10
+  brightness: 0.15
+  contrast: 0.15
+  saturation: 0.10
+  hue: 0.02
+
+model:
+  backbone: resnet50
+  pretrained: true
+  attention: true
+  embedding_dim: 128
+  projection_dim: 128
+  dropout: 0.30
+  num_classes: 2
+
+training:
+  epochs: 40
+  batch_size: 32
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  supervised_loss_weight: 1.0
+  contrastive_loss_weight: 0.20
+  contrastive_temperature: 0.10
+  use_class_weights: true
+  early_stopping_patience: 8
+  mixed_precision: true
+
+evaluation:
+  bootstrap_samples: 2000
+  confidence_level: 0.95
+
+output:
+  directory: outputs
+  checkpoint_name: best_model.pt
